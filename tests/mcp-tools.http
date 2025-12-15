@@ -1,0 +1,374 @@
+### BambooHR MCP Server - HTTP Test File
+### Run server first: TRANSPORT=http PORT=3000 npm start
+
+@baseUrl = http://localhost:3000
+
+### ============================================
+### HEALTH CHECK
+### ============================================
+
+### Health Check
+GET {{baseUrl}}/health
+
+### ============================================
+### MCP PROTOCOL - Initialize/List Tools
+### ============================================
+
+### List Available Tools
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/list"
+}
+
+### ============================================
+### EMPLOYEE TOOLS (5 tools)
+### ============================================
+
+### 1. Get Employee Directory
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_employee_directory",
+    "arguments": {
+      "response_format": "json"
+    }
+  }
+}
+
+### 2. Get Employee Details (replace 123 with actual employee ID)
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_employee",
+    "arguments": {
+      "employee_id": "123",
+      "response_format": "json"
+    }
+  }
+}
+
+### 2b. Get Employee with Specific Fields
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_employee",
+    "arguments": {
+      "employee_id": "123",
+      "fields": ["firstName", "lastName", "email", "jobTitle", "department", "Skills", "customSeniority1"],
+      "response_format": "json"
+    }
+  }
+}
+
+### 3. Get Employee Files
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_employee_files",
+    "arguments": {
+      "employee_id": "123",
+      "response_format": "json"
+    }
+  }
+}
+
+### 4. Get Employee Enriched (Skills + Training)
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 6,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_employee_enriched",
+    "arguments": {
+      "employee_id": "123",
+      "response_format": "json"
+    }
+  }
+}
+
+### 5. Get Employee Table Rows (Job History)
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 7,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_employee_table_rows",
+    "arguments": {
+      "employee_id": "123",
+      "table_name": "jobInfo",
+      "response_format": "json"
+    }
+  }
+}
+
+### 5b. Get Employee Compensation History
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 8,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_employee_table_rows",
+    "arguments": {
+      "employee_id": "123",
+      "table_name": "compensation",
+      "response_format": "json"
+    }
+  }
+}
+
+### ============================================
+### TIME OFF TOOLS (5 tools)
+### ============================================
+
+### 6. Get Time Off Requests
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 9,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_time_off_requests",
+    "arguments": {
+      "response_format": "json"
+    }
+  }
+}
+
+### 6b. Get Time Off Requests with Filters
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 10,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_time_off_requests",
+    "arguments": {
+      "start_date": "2025-01-01",
+      "end_date": "2025-12-31",
+      "status": "approved",
+      "response_format": "json"
+    }
+  }
+}
+
+### 7. Get Who's Out Today
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 11,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_whos_out",
+    "arguments": {
+      "response_format": "json"
+    }
+  }
+}
+
+### 7b. Get Who's Out (Date Range)
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 12,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_whos_out",
+    "arguments": {
+      "start_date": "2025-12-16",
+      "end_date": "2025-12-31",
+      "response_format": "json"
+    }
+  }
+}
+
+### 8. Get Time Off Types
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 13,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_time_off_types",
+    "arguments": {
+      "response_format": "json"
+    }
+  }
+}
+
+### 9. Get Employee Time Off Policies
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 14,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_employee_time_off_policies",
+    "arguments": {
+      "employee_id": "123",
+      "response_format": "json"
+    }
+  }
+}
+
+### 10. Get All Time Off Policies
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 15,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_time_off_policies",
+    "arguments": {
+      "response_format": "json"
+    }
+  }
+}
+
+### ============================================
+### METADATA & TRAINING TOOLS (5 tools)
+### ============================================
+
+### 11. Get Available Fields (IMPORTANT - shows all field names including custom)
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 16,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_fields",
+    "arguments": {
+      "response_format": "json"
+    }
+  }
+}
+
+### 12. Get Training Types
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 17,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_training_types",
+    "arguments": {
+      "response_format": "json"
+    }
+  }
+}
+
+### 13. Get Training Categories
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 18,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_training_categories",
+    "arguments": {
+      "response_format": "json"
+    }
+  }
+}
+
+### 14. Get Employee Birthdays
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 19,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_employee_birthdays",
+    "arguments": {
+      "response_format": "json"
+    }
+  }
+}
+
+### 15. Get List Field Values (Department)
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 20,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_list_field_values",
+    "arguments": {
+      "list_field_id": "department",
+      "response_format": "json"
+    }
+  }
+}
+
+### 15b. Get List Field Values (Location)
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 21,
+  "method": "tools/call",
+  "params": {
+    "name": "bamboohr_get_list_field_values",
+    "arguments": {
+      "list_field_id": "location",
+      "response_format": "json"
+    }
+  }
+}

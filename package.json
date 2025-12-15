@@ -1,0 +1,69 @@
+{
+  "name": "@twentytwokhz/bamboohr-mcp",
+  "version": "2.0.0",
+  "description": "Production-ready MCP server for BambooHR API - Full CRUD operations for employees, time off, goals, training, files, ATS, benefits, and time tracking",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "bamboohr-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "prepublishOnly": "npm run clean && npm run build && npm run test"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "bamboohr",
+    "hr",
+    "hris",
+    "api",
+    "claude",
+    "anthropic",
+    "ai"
+  ],
+  "author": "Florin Bobis",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twentytwokhz/bamboohr-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/twentytwokhz/bamboohr-mcp/issues"
+  },
+  "homepage": "https://github.com/twentytwokhz/bamboohr-mcp#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.3",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "@vitest/coverage-v8": "^4.0.18",
+    "eslint": "^9.0.0",
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^8.54.0",
+    "vitest": "^4.0.18"
+  }
+}

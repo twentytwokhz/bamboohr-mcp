@@ -1,0 +1,194 @@
+### BambooHR API Direct Tests
+### Use these to investigate API responses directly
+### Replace YOUR_COMPANY and YOUR_API_KEY with actual values
+
+@domain = YOUR_COMPANY
+@baseUrl = https://{{domain}}.bamboohr.com/api/v1
+@apiKey = YOUR_API_KEY
+
+### ============================================
+### EMPLOYEE ENDPOINTS
+### ============================================
+
+### Get Employee Directory
+GET {{baseUrl}}/employees/directory
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get Single Employee (all default fields)
+GET {{baseUrl}}/employees/123
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get Single Employee with Specific Fields
+# Note: Use field names from /meta/fields endpoint
+GET {{baseUrl}}/employees/123?fields=firstName,lastName,email,jobTitle,department,Skills,customSeniority1
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get Employee Files
+GET {{baseUrl}}/employees/123/files/view
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get Employee Table Data (Job Info)
+GET {{baseUrl}}/employees/123/tables/jobInfo
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get Employee Table Data (Compensation)
+GET {{baseUrl}}/employees/123/tables/compensation
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get Employee Table Data (Employment Status)
+GET {{baseUrl}}/employees/123/tables/employmentStatus
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### ============================================
+### METADATA ENDPOINTS - CRITICAL FOR DISCOVERING FIELDS
+### ============================================
+
+### Get All Available Fields (IMPORTANT)
+# Returns all standard and custom field definitions
+GET {{baseUrl}}/meta/fields
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get Tables Metadata
+GET {{baseUrl}}/meta/tables
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get List Field Values - Department
+GET {{baseUrl}}/meta/lists/department
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get List Field Values - Location
+GET {{baseUrl}}/meta/lists/location
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get List Field Values - Division
+GET {{baseUrl}}/meta/lists/division
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### ============================================
+### TIME OFF ENDPOINTS
+### ============================================
+
+### Get Who's Out
+GET {{baseUrl}}/time_off/whos_out
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get Time Off Requests
+GET {{baseUrl}}/time_off/requests?start=2025-01-01&end=2025-12-31
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get Time Off Types
+GET {{baseUrl}}/meta/time_off/types
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get Time Off Policies
+GET {{baseUrl}}/time_off/policies
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get Employee Time Off Policies
+GET {{baseUrl}}/employees/123/time_off/policies
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### ============================================
+### TRAINING ENDPOINTS
+### ============================================
+
+### Get Training Types
+GET {{baseUrl}}/meta/training/types
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Get Training Categories
+GET {{baseUrl}}/meta/training/categories
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### ============================================
+### CUSTOM REPORTS (POST)
+### Use for data not available via standard endpoints
+### ============================================
+
+### Custom Report - Employee Birthdays
+POST {{baseUrl}}/reports/custom?format=JSON
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+Content-Type: application/json
+
+{
+  "title": "Employee Birthdays",
+  "fields": ["displayName", "firstName", "lastName", "dateOfBirth", "department"]
+}
+
+### Custom Report - All Employee Data with Custom Fields
+POST {{baseUrl}}/reports/custom?format=JSON
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+Content-Type: application/json
+
+{
+  "title": "Employee Data Export",
+  "fields": [
+    "displayName",
+    "firstName",
+    "lastName",
+    "email",
+    "jobTitle",
+    "department",
+    "location",
+    "hireDate",
+    "status",
+    "Skills",
+    "customSeniority1",
+    "teams"
+  ]
+}
+
+### Custom Report - Training Certifications
+# Note: Add your custom training field names here
+POST {{baseUrl}}/reports/custom?format=JSON
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+Content-Type: application/json
+
+{
+  "title": "Training Certifications",
+  "fields": [
+    "displayName",
+    "department",
+    "AZ-900: Microsoft Azure Fundamentals - Completed",
+    "AZ-104: Microsoft Azure Administrator - Completed",
+    "AWS Certified Cloud Practitioner - Completed",
+    "KnowBe4 Security Trainings - Completed"
+  ]
+}
+
+### ============================================
+### INVESTIGATION - Finding Hidden/Custom Fields
+### ============================================
+
+### Get ALL fields for a specific employee (use 0 for current user)
+# This endpoint might return more data
+GET {{baseUrl}}/employees/0?fields=all
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
+
+### Try to get employee with commonly used custom field patterns
+GET {{baseUrl}}/employees/123?fields=firstName,lastName,custom1,custom2,custom3,custom4,custom5,customText1,customText2,customText3
+Authorization: Basic {{apiKey}}:x
+Accept: application/json
