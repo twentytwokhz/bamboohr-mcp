@@ -469,7 +469,7 @@ Examples:
           lines.push('## Certifications');
           certifications.forEach(cert => {
             lines.push('');
-            lines.push(formatCertificationMarkdown(cert).replace(/### /, '### ').replace(/   - /g, '- '));
+            lines.push(formatCertificationMarkdown(cert).replace(/### /, '### ').replace(/ {3}- /g, '- '));
           });
         }
 
@@ -529,7 +529,7 @@ Examples:
         );
 
         const employees = result.employees || [];
-        let allCertifications: Certification[] = [];
+        const allCertifications: Certification[] = [];
 
         for (const emp of employees) {
           const certs = parseEmployeeCertifications(emp, params.category);
@@ -568,7 +568,7 @@ Examples:
         summary.byDepartment = deptStats;
 
         // Build grouped data based on group_by parameter
-        let groupedData: Record<string, Certification[]> = {};
+        const groupedData: Record<string, Certification[]> = {};
         switch (params.group_by) {
           case 'category':
             for (const cert of allCertifications) {
