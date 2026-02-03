@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a **full CRUD** MCP (Model Context Protocol) server for BambooHR API integration (v2.0.0). It enables AI assistants (like Claude Desktop) to manage employees, time off, files, goals, training, applicant tracking, benefits, and time tracking in BambooHR.
+This is a **full CRUD** MCP (Model Context Protocol) server for BambooHR API integration (v1.0.2). It enables AI assistants (like Claude Desktop) to manage employees, time off, files, goals, training, applicant tracking, benefits, time tracking, and certification assessments in BambooHR.
 
-**64 tools** across 8 domains with safety confirmations for destructive operations.
+**71 tools** across 9 domains with safety confirmations for destructive operations.
 
 ## Build and Run Commands
 
@@ -33,13 +33,13 @@ TRANSPORT=http PORT=3000 npm start
 ## Architecture
 
 ### Entry Point
-`src/index.ts` - Initializes the MCP server, validates environment variables, registers all 8 tool modules, and handles transport (stdio or HTTP).
+`src/index.ts` - Initializes the MCP server, validates environment variables, registers all 9 tool modules, and handles transport (stdio or HTTP).
 
 ### Core Services
 - `src/services/bamboohr-client.ts` - API client with Basic Auth, 5-minute response caching, retry logic with exponential backoff for rate limits (429/503), multipart form data for file uploads, and error handling
 - `src/services/formatting.ts` - Response formatting (JSON/Markdown output)
 
-### Tool Modules (64 tools total)
+### Tool Modules (71 tools total)
 
 | Module | File | Tools | Description |
 |--------|------|-------|-------------|
@@ -51,6 +51,7 @@ TRANSPORT=http PORT=3000 npm start
 | ATS | `applicant-tracking.ts` | 10 | Job openings, candidates, applications |
 | Benefits | `benefits.ts` | 7 | Dependents, benefit plans, enrollments |
 | Time Tracking | `time-tracking.ts` | 7 | Clock in/out, hour records, projects |
+| Assessments | `assessments.ts` | 7 | Certification tracking, compliance reporting |
 
 ### Tool Registration Pattern
 
@@ -63,6 +64,7 @@ registerGoalTools(server, bambooClient);          // goals.ts
 registerApplicantTrackingTools(server, bambooClient); // applicant-tracking.ts
 registerBenefitsTools(server, bambooClient);      // benefits.ts
 registerTimeTrackingTools(server, bambooClient);  // time-tracking.ts
+registerAssessmentTools(server, bambooClient);    // assessments.ts
 ```
 
 ### Tool Annotations
@@ -149,3 +151,23 @@ The compiled `dist/` folder runs on any platform with Node.js 18+:
 - Linux ✓
 
 Build once, run anywhere.
+
+## Certifications & Assessments
+
+When users ask about performance reviews or assessments:
+
+1. **For certification queries**: Use `bamboohr_get_certifications_due`
+2. **For training status**: Use `bamboohr_get_training_records` or certification tools
+3. **For goal tracking**: Use existing `bamboohr_get_employee_goals`
+4. **For aggregated view**: Use `bamboohr_get_employees_with_assessments_due`
+5. **For overdue items**: Use `bamboohr_get_overdue_assessments`
+
+**Important**: Formal performance review cycles, ratings, and review forms are NOT accessible via the BambooHR API. This is a known API limitation. The assessments module tracks certifications (via custom fields), training, and goals instead.
+
+### Certification Field Configuration
+
+The `src/config/certification-fields.ts` file maps 38 certification types (Azure, AWS, Power Platform, Data, etc.) to their BambooHR custom field IDs. When adding new certifications:
+
+1. Get the field IDs from BambooHR (Admin → Fields)
+2. Add entry to `CERTIFICATION_FIELDS` with `completed`, `due`, `expires`, `name`, and `category`
+3. The Custom Reports API will automatically include the new fields

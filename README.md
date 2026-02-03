@@ -4,11 +4,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org)
 
-A comprehensive Model Context Protocol (MCP) server for BambooHR API integration with **full CRUD operations**. This server enables AI assistants to manage employees, time off, files, goals, training, applicant tracking, benefits, and time tracking in BambooHR.
+A comprehensive Model Context Protocol (MCP) server for BambooHR API integration with **full CRUD operations**. This server enables AI assistants to manage employees, time off, files, goals, training, applicant tracking, benefits, time tracking, and certifications in BambooHR.
 
 ## Features
 
-- **64 Tools** covering all major BambooHR API endpoints
+- **71 Tools** covering all major BambooHR API endpoints
 - **Full CRUD Operations** - Create, Read, Update, Delete across all domains
 - **Cross-Platform** - Runs on macOS, Windows, and Linux
 - **Safety Confirmations** - Destructive operations require explicit `confirm: true`
@@ -139,7 +139,7 @@ Add to your Claude Desktop configuration file:
 
 ---
 
-## Available Tools (64 Total)
+## Available Tools (71 Total)
 
 ### 🧑‍💼 Employee Tools (9 tools)
 
@@ -327,6 +327,33 @@ Add to your Claude Desktop configuration file:
 
 ---
 
+### 📊 Certifications & Assessments Tools (7 tools)
+
+| Tool | Type | Description |
+|------|------|-------------|
+| `bamboohr_get_certifications_due` | Read | Query certifications due/expiring across employees |
+| `bamboohr_get_employee_certification_summary` | Read | Get certification summary for an employee |
+| `bamboohr_get_company_certifications_report` | Read | Company-wide certification compliance report |
+| `bamboohr_get_employees_with_assessments_due` | Read | Get employees with assessments due in date range |
+| `bamboohr_get_training_records` | Read | Get training records with filtering |
+| `bamboohr_get_goals_status_report` | Read | Company-wide goals progress report |
+| `bamboohr_get_overdue_assessments` | Read | Get all overdue items across types |
+
+#### Certification & Assessment Examples
+
+```
+"Which certifications are expiring in February 2026?"
+"Show all Azure certifications due before end of Q1"
+"Get company-wide certification compliance by department"
+"What assessments are due this month?"
+"Show overdue items for employee 123"
+"Goal progress report grouped by status"
+```
+
+**Note:** BambooHR's API does not expose formal Performance Review endpoints. This module tracks certifications (via custom fields), training, and goals - not review cycles or ratings.
+
+---
+
 ## Safety Features
 
 ### Destructive Operations Require Confirmation
@@ -460,7 +487,8 @@ bamboohr-mcp-server/
 │       ├── metadata.ts             # Metadata & training (10 tools)
 │       ├── applicant-tracking.ts   # ATS (10 tools)
 │       ├── benefits.ts             # Benefits & dependents (7 tools)
-│       └── time-tracking.ts        # Time tracking (7 tools)
+│       ├── time-tracking.ts        # Time tracking (7 tools)
+│       └── assessments.ts          # Certifications & assessments (7 tools)
 ├── dist/                           # Compiled JavaScript (cross-platform)
 ├── .env                            # Your credentials (don't commit!)
 └── README.md
@@ -527,24 +555,21 @@ All tools include MCP annotations:
 
 ## Version History
 
-### 2.0.0 - Full CRUD Operations (Current)
-- **64 tools** covering complete BambooHR API
-- Employee CRUD with custom fields support
-- Time off request management (create, approve, deny)
-- File uploads (documents, photos)
-- Goals & performance management
-- Training records management
-- Applicant tracking system
-- Benefits & dependents management
-- Time tracking (clock in/out, hour records)
-- Safety confirmation pattern for destructive operations
-- Cross-platform compatibility
+### 1.0.2 - Certifications & Assessment Tracking (Current)
+- **71 tools**
+- Certification expiration tracking across all employees
+- Bulk certification queries with date filtering
+- Company-wide certification compliance reporting
+- Aggregated assessment views (certifications + training + goals)
+- Enhanced goals status reporting
+- **Note:** Formal Performance Review cycles remain inaccessible via BambooHR API
 
-### 1.0.x - Read-Only Versions
-- 15 read-only tools
-- Employee directory and details
-- Time off viewing
-- Metadata and training types
+### 1.0.1
+- Full CRUD operations for employees, time off, goals, training, files, ATS, benefits, and time tracking
+- Safety confirmation pattern for destructive operations
+
+### 1.0.0
+- Initial release with read operations
 
 ---
 

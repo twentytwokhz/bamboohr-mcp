@@ -107,3 +107,54 @@ export interface TableRow {
   date?: string;
   [key: string]: unknown;
 }
+
+// Certification tracking types
+export interface Certification {
+  employeeId: string;
+  employeeName: string;
+  certificationCode: string;
+  certificationName: string;
+  category: 'azure' | 'data' | 'power-platform' | 'aws' | 'other';
+  completedDate?: string;
+  dueDate?: string;
+  expiresDate?: string;
+  status: 'active' | 'expiring_soon' | 'expired' | 'not_started';
+  daysUntilDue?: number;
+  daysUntilExpires?: number;
+}
+
+export interface AssessmentItem {
+  employeeId: string;
+  employeeName: string;
+  department?: string;
+  assessmentType: 'certification' | 'training' | 'goal';
+  assessmentName: string;
+  dueDate?: string;
+  expiresDate?: string;
+  status: 'upcoming' | 'due' | 'overdue' | 'completed';
+  daysUntilDue?: number;
+}
+
+export interface CertificationSummary {
+  total: number;
+  active: number;
+  expiringSoon: number;
+  expired: number;
+  notStarted: number;
+  byCategory: Record<string, number>;
+  byDepartment: Record<string, { total: number; compliant: number }>;
+}
+
+export interface EmployeeCertificationSummary {
+  employeeId: string;
+  employeeName: string;
+  department?: string;
+  certifications: Certification[];
+  summary: {
+    total: number;
+    active: number;
+    expiringSoon: number;
+    expired: number;
+    notStarted: number;
+  };
+}
