@@ -555,7 +555,15 @@ All tools include MCP annotations:
 
 ## Version History
 
-### 1.0.2 - Certifications & Assessment Tracking (Current)
+### 1.1.0 - Reports & Datasets API (Current)
+- **79 tools** (8 new)
+- **Custom Reports API:** List and execute saved reports (including "Feedback Status")
+- **Datasets API:** Query raw data with filters, sorting, and aggregations
+- New tools: `bamboohr_list_reports`, `bamboohr_run_report`, `bamboohr_list_datasets`, `bamboohr_get_dataset_fields`, `bamboohr_get_field_options`, `bamboohr_query_dataset`, `bamboohr_request_custom_report`, `bamboohr_get_company_info`
+- Access feedback data via saved reports workaround
+- **Note:** Performance Reviews/Feedback remain inaccessible via direct API, but saved reports can be executed
+
+### 1.0.2 - Certifications & Assessment Tracking
 - **71 tools**
 - Certification expiration tracking across all employees
 - Bulk certification queries with date filtering

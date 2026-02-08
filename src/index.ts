@@ -20,11 +20,12 @@ import { registerApplicantTrackingTools } from './tools/applicant-tracking.js';
 import { registerBenefitsTools } from './tools/benefits.js';
 import { registerTimeTrackingTools } from './tools/time-tracking.js';
 import { registerAssessmentTools } from './tools/assessments.js';
+import { registerReportTools } from './tools/reports.js';
 
 // Initialize MCP Server
 const server = new McpServer({
   name: '@twentytwokhz/bamboohr-mcp',
-  version: '1.0.2'
+  version: '1.1.0'
 });
 
 // Get configuration from environment variables
@@ -74,6 +75,9 @@ try {
   console.error('Registering certifications & assessments tools...');
   registerAssessmentTools(server, bambooClient);
 
+  console.error('Registering reports & datasets tools...');
+  registerReportTools(server, bambooClient);
+
   console.error('All tools registered successfully!');
 } catch (error) {
   console.error('Failed to register tools:', error);
@@ -94,7 +98,7 @@ async function runHTTP(): Promise<void> {
 
   // Health check endpoint
   app.get('/health', (_req, res) => {
-    res.json({ status: 'ok', server: '@twentytwokhz/bamboohr-mcp', version: '1.0.2' });
+    res.json({ status: 'ok', server: '@twentytwokhz/bamboohr-mcp', version: '1.1.0' });
   });
 
   // MCP endpoint
