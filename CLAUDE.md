@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a **full CRUD** MCP (Model Context Protocol) server for BambooHR API integration (v1.0.2). It enables AI assistants (like Claude Desktop) to manage employees, time off, files, goals, training, applicant tracking, benefits, time tracking, and certification assessments in BambooHR.
+This is a **full CRUD** MCP (Model Context Protocol) server for BambooHR API integration (v1.1.0). It enables AI assistants (like Claude Desktop) to manage employees, time off, files, goals, training, applicant tracking, benefits, time tracking, certification assessments, and reports/datasets in BambooHR.
 
-**71 tools** across 9 domains with safety confirmations for destructive operations.
+**79 tools** across 10 domains with safety confirmations for destructive operations.
 
 ## Build and Run Commands
 
@@ -33,16 +33,16 @@ TRANSPORT=http PORT=3000 npm start
 ## Architecture
 
 ### Entry Point
-`src/index.ts` - Initializes the MCP server, validates environment variables, registers all 9 tool modules, and handles transport (stdio or HTTP).
+`src/index.ts` - Initializes the MCP server, validates environment variables, registers all 10 tool modules, and handles transport (stdio or HTTP).
 
 ### Core Services
 - `src/services/bamboohr-client.ts` - API client with Basic Auth, 5-minute response caching, retry logic with exponential backoff for rate limits (429/503), multipart form data for file uploads, and error handling
 - `src/services/formatting.ts` - Response formatting (JSON/Markdown output)
 
-### Tool Modules (71 tools total)
+### Tool Modules (79 tools total)
 
 | Module | File | Tools | Description |
-|--------|------|-------|-------------|
+|--------|------|-------|-----------|
 | Employees | `employees.ts` | 9 | CRUD for employee records, custom fields, table rows |
 | Time Off | `timeoff.ts` | 9 | Requests, approvals, balance adjustments, policies |
 | Files | `files.ts` | 6 | Upload/delete employee files and photos |
@@ -52,6 +52,7 @@ TRANSPORT=http PORT=3000 npm start
 | Benefits | `benefits.ts` | 7 | Dependents, benefit plans, enrollments |
 | Time Tracking | `time-tracking.ts` | 7 | Clock in/out, hour records, projects |
 | Assessments | `assessments.ts` | 7 | Certification tracking, compliance reporting |
+| Reports | `reports.ts` | 8 | Saved reports, datasets API, custom queries |
 
 ### Tool Registration Pattern
 
@@ -65,6 +66,7 @@ registerApplicantTrackingTools(server, bambooClient); // applicant-tracking.ts
 registerBenefitsTools(server, bambooClient);      // benefits.ts
 registerTimeTrackingTools(server, bambooClient);  // time-tracking.ts
 registerAssessmentTools(server, bambooClient);    // assessments.ts
+registerReportTools(server, bambooClient);        // reports.ts
 ```
 
 ### Tool Annotations
