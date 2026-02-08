@@ -1,6 +1,6 @@
 {
   "name": "@twentytwokhz/bamboohr-mcp",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Production-ready MCP server for BambooHR API - Full CRUD operations for employees, time off, goals, training, files, ATS, benefits, time tracking, and certification assessments",
   "type": "module",
   "main": "dist/index.js",
